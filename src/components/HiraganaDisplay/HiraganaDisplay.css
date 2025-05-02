@@ -1,0 +1,68 @@
+.hiragana-display {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #f9f7ff;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  font-family: "Comic Sans MS", "Meiryo", sans-serif;
+}
+
+.title {
+  text-align: center;
+  color: #6a4c93;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.group-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+
+.group-tab {
+  padding: 8px 15px;
+  background-color: #e0e0ff;
+  border: none;
+  border-radius: 20px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  color: #555;
+}
+
+.group-tab:hover {
+  background-color: #d0d0ff;
+}
+
+.group-tab.active {
+  background-color: #6a4c93;
+  color: white;
+  font-weight: bold;
+}
+
+.characters-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 15px;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 600px) {
+  .characters-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .title {
+    font-size: 2rem;
+  }
+  
+  .group-tab {
+    font-size: 1rem;
+    padding: 6px 12px;
+  }
+} 
