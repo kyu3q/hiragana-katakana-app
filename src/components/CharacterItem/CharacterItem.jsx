@@ -14,6 +14,7 @@ const CharacterItem = ({ character, onClick, isTarget, isCorrect }) => {
   const getStatusClass = () => {
     if (isTarget && isCorrect === true) return 'correct';
     if (isTarget && isCorrect === false) return 'wrong';
+    if (isTarget) return 'is-target';
     return '';
   };
 

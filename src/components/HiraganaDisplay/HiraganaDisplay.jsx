@@ -333,61 +333,67 @@ const HiraganaDisplay = () => {
     <div className="hiragana-display">
       <h1 className="title">ひらがなであそぼう！</h1>
       
-      <div className="mode-toggle">
-        <button 
-          className={`mode-button ${gameMode === 'learn' ? 'active' : ''}`}
-          onClick={toggleGameMode}
-          disabled={isTransitioning}
-        >
-          {gameMode === 'learn' ? '学習モード' : 'クイズモード'}
-        </button>
-      </div>
-      
-      <ScoreBoard score={score} />
-      
-      {gameMode === 'quiz' && (
-        <div className="quiz-section">
-          <div className="quiz-prompt">
-            <p>この音は何のひらがな？</p>
+      <div className="main-content">
+        <div className="left-section">
+          <div className="mode-toggle">
             <button 
-              className="play-again-button" 
-              onClick={handlePlayAgain}
-              disabled={isTransitioning || isPlaying}
+              className={`mode-button ${gameMode === 'learn' ? 'active' : ''}`}
+              onClick={toggleGameMode}
+              disabled={isTransitioning}
             >
-              もう一度聞く 🔊
+              {gameMode === 'learn' ? '学習モード' : 'クイズモード'}
             </button>
           </div>
-          {isCorrect !== null && (
-            <div className={`quiz-result ${isCorrect ? 'correct' : 'wrong'}`}>
-              {isCorrect ? '正解！' : '違うよ、もう一度！'}
+          
+          <ScoreBoard score={score} />
+          
+          {gameMode === 'quiz' && (
+            <div className="quiz-section">
+              <div className="quiz-prompt">
+                <p>この音は何のひらがな？</p>
+                <button 
+                  className="play-again-button" 
+                  onClick={handlePlayAgain}
+                  disabled={isTransitioning || isPlaying}
+                >
+                  もう一度聞く 🔊
+                </button>
+              </div>
+              {isCorrect !== null && (
+                <div className={`quiz-result ${isCorrect ? 'correct' : 'wrong'}`}>
+                  {isCorrect ? '正解！' : '違うよ、もう一度！'}
+                </div>
+              )}
             </div>
           )}
+          
+          <div className="group-tabs">
+            {hiraganaGroups.map((group, index) => (
+              <button 
+                key={index}
+                className={`group-tab ${currentGroup === index ? 'active' : ''}`}
+                onClick={() => changeGroup(index)}
+                disabled={isTransitioning}
+              >
+                {group.name}
+              </button>
+            ))}
+          </div>
         </div>
-      )}
-      
-      <div className="group-tabs">
-        {hiraganaGroups.map((group, index) => (
-          <button 
-            key={index}
-            className={`group-tab ${currentGroup === index ? 'active' : ''}`}
-            onClick={() => changeGroup(index)}
-            disabled={isTransitioning}
-          >
-            {group.name}
-          </button>
-        ))}
-      </div>
-      
-      <div className="characters-grid">
-        {hiraganaGroups[currentGroup].characters.map((char, index) => (
-          <CharacterItem 
-            key={index}
-            character={char}
-            onClick={handleCharacterClick}
-            isTarget={gameMode === 'quiz' && targetChar && char.char === targetChar.char}
-            isCorrect={isCorrect}
-          />
-        ))}
+        
+        <div className="right-section">
+          <div className="characters-grid">
+            {hiraganaGroups[currentGroup].characters.map((char, index) => (
+              <CharacterItem 
+                key={index}
+                character={char}
+                onClick={handleCharacterClick}
+                isTarget={gameMode === 'quiz' && targetChar && char.char === targetChar.char && isCorrect !== null}
+                isCorrect={isCorrect}
+              />
+            ))}
+          </div>
+        </div>
       </div>
       
       {showAnimation && selectedChar && (
