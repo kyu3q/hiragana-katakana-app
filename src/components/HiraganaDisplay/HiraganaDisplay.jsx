@@ -329,6 +329,15 @@ const HiraganaDisplay = () => {
     };
   }, [gameMode]);
 
+  // 5文字ごとに配列を分割する関数
+  function chunkArray(array, size) {
+    const result = [];
+    for (let i = 0; i < array.length; i += size) {
+      result.push(array.slice(i, i + size));
+    }
+    return result;
+  }
+
   return (
     <div className="hiragana-display">
       <h1 className="title">ひらがなであそぼう！</h1>
@@ -383,14 +392,18 @@ const HiraganaDisplay = () => {
         
         <div className="right-section">
           <div className="characters-grid">
-            {hiraganaGroups[currentGroup].characters.map((char, index) => (
-              <CharacterItem 
-                key={index}
-                character={char}
-                onClick={handleCharacterClick}
-                isTarget={gameMode === 'quiz' && targetChar && char.char === targetChar.char && isCorrect !== null}
-                isCorrect={isCorrect}
-              />
+            {chunkArray(hiraganaGroups[currentGroup].characters, 5).map((row, rowIndex) => (
+              <div className="characters-row" key={rowIndex}>
+                {row.map((char, index) => (
+                  <CharacterItem
+                    key={index}
+                    character={char}
+                    onClick={handleCharacterClick}
+                    isTarget={gameMode === 'quiz' && targetChar && char.char === targetChar.char && isCorrect !== null}
+                    isCorrect={isCorrect}
+                  />
+                ))}
+              </div>
             ))}
           </div>
         </div>

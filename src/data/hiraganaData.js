@@ -132,7 +132,7 @@ export const hiraganaGroups = [
     ]
   },
   {
-    name: '拗音',
+    name: '拗音（1）',
     characters: [
       { char: 'きゃ', romaji: 'kya', image: '🍬 きゃんでぃ' },
       { char: 'きゅ', romaji: 'kyu', image: '🥒 きゅうり' },
@@ -145,16 +145,12 @@ export const hiraganaGroups = [
       { char: 'ちょ', romaji: 'cho', image: '🦋 ちょうちょ' },
       { char: 'にゃ', romaji: 'nya', image: '🐱 にゃんこ' },
       { char: 'にゅ', romaji: 'nyu', image: '🏥 にゅういん' },
-      { char: 'にょ', romaji: 'nyo', image: '👧 おにょうこ' },
-      { char: 'ひゃ', romaji: 'hya', image: '🚑 きゅうびょうしゃ' },
-      { char: 'ひゅ', romaji: 'hyu', image: '🧩 ひゅうまんぱずる' },
-      { char: 'ひょ', romaji: 'hyo', image: '😯 ひょうじょう' },
-      { char: 'みゃ', romaji: 'mya', image: '🐈 みゃお' },
-      { char: 'みゅ', romaji: 'myu', image: '🎵 みゅーじっく' },
-      { char: 'みょ', romaji: 'myo', image: '🏮 みょうじ' },
-      { char: 'りゃ', romaji: 'rya', image: '🏨 りょかん' },
-      { char: 'りゅ', romaji: 'ryu', image: '🐉 りゅう' },
-      { char: 'りょ', romaji: 'ryo', image: '🧳 りょこう' },
+      { char: 'にょ', romaji: 'nyo', image: '👧 おにょうこ' }
+    ]
+  },
+  {
+    name: '拗音（2）',
+    characters: [
       { char: 'ぎゃ', romaji: 'gya', image: '🎭 ぎゃくてん' },
       { char: 'ぎゅ', romaji: 'gyu', image: '🥩 ぎゅうにく' },
       { char: 'ぎょ', romaji: 'gyo', image: '🐟 ぎょかい' },
