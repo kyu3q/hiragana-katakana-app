@@ -338,77 +338,73 @@ const HiraganaDisplay = () => {
     return result;
   }
 
+  // 2行に分割
+  const half = Math.ceil(hiraganaGroups.length / 2);
+  const groupRows = [
+    hiraganaGroups.slice(0, half),
+    hiraganaGroups.slice(half)
+  ];
+
   return (
     <div className="hiragana-display">
-      <h1 className="title">ひらがなであそぼう！</h1>
-      
-      <div className="main-content">
-        <div className="left-section">
-          <div className="mode-toggle">
-            <button 
-              className={`mode-button ${gameMode === 'learn' ? 'active' : ''}`}
-              onClick={toggleGameMode}
-              disabled={isTransitioning}
-            >
-              {gameMode === 'learn' ? '学習モード' : 'クイズモード'}
-            </button>
-          </div>
-          
-          <ScoreBoard score={score} />
-          
-          {gameMode === 'quiz' && (
-            <div className="quiz-section">
-              <div className="quiz-prompt">
-                <p>この音は何のひらがな？</p>
-                <button 
-                  className="play-again-button" 
-                  onClick={handlePlayAgain}
-                  disabled={isTransitioning || isPlaying}
-                >
-                  もう一度聞く 🔊
-                </button>
-              </div>
-              {isCorrect !== null && (
-                <div className={`quiz-result ${isCorrect ? 'correct' : 'wrong'}`}>
-                  {isCorrect ? '正解！' : '違うよ、もう一度！'}
-                </div>
-              )}
-            </div>
-          )}
-          
-          <div className="group-tabs">
-            {hiraganaGroups.map((group, index) => (
-              <button 
-                key={index}
-                className={`group-tab ${currentGroup === index ? 'active' : ''}`}
-                onClick={() => changeGroup(index)}
-                disabled={isTransitioning}
-              >
-                {group.name}
-              </button>
-            ))}
-          </div>
-        </div>
-        
-        <div className="right-section">
-          <div className="characters-grid">
-            {chunkArray(hiraganaGroups[currentGroup].characters, 5).map((row, rowIndex) => (
-              <div className="characters-row" key={rowIndex}>
-                {row.map((char, index) => (
-                  <CharacterItem
-                    key={index}
-                    character={char}
-                    onClick={handleCharacterClick}
-                    isTarget={gameMode === 'quiz' && targetChar && char.char === targetChar.char && isCorrect !== null}
-                    isCorrect={isCorrect}
-                  />
-                ))}
-              </div>
-            ))}
-          </div>
+      <div className="header-row">
+        <h1 className="title stylish-title">ひらがなであそぼう！</h1>
+        <div className="mode-toggle-inline">
+          <button 
+            className={`mode-button ${gameMode === 'learn' ? 'active' : ''}`}
+            onClick={toggleGameMode}
+            disabled={isTransitioning}
+          >
+            {gameMode === 'learn' ? '学習モード' : 'クイズモード'}
+          </button>
         </div>
       </div>
-      
+
+      <div className="shinkansen-wrapper">
+        <div className="group-rail-rows">
+          {groupRows.map((row, rowIdx) => (
+            <div className="group-tabs-rail" key={rowIdx}>
+              <button
+                className={`group-rail-btn shinkansen-head ${rowIdx === 0 ? 'hayabusa-head' : 'komachi-head'}`}
+                disabled
+                aria-hidden="true"
+              />
+              {row.map((group, index) => (
+                <React.Fragment key={group.name}>
+                  <button
+                    className={`group-rail-btn ${currentGroup === hiraganaGroups.indexOf(group) ? 'active' : ''}`}
+                    onClick={() => changeGroup(hiraganaGroups.indexOf(group))}
+                    disabled={isTransitioning}
+                  >
+                    {group.name}
+                  </button>
+                  {index < row.length - 1 && <span className="rail-connector" />}
+                </React.Fragment>
+              ))}
+              <div className="rail-track" />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="characters-area">
+        <div className="characters-grid">
+          {chunkArray(hiraganaGroups[currentGroup].characters, 5).map((row, rowIndex) => (
+            <div className="characters-row" key={rowIndex}>
+              {row.map((char, index) => (
+                <CharacterItem
+                  key={index}
+                  character={char}
+                  onClick={handleCharacterClick}
+                  isTarget={gameMode === 'quiz' && targetChar && char.char === targetChar.char && isCorrect !== null}
+                  isCorrect={isCorrect}
+                />
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
       {showAnimation && selectedChar && (
         <AnimationOverlay 
           character={selectedChar}
