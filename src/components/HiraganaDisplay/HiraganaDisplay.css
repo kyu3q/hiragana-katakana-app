@@ -255,6 +255,7 @@ body {
   border-bottom-left-radius: 30px 30px;
   border-right: 2px solid #fff;
   position: relative;
+  z-index: 1;
 }
 .hayabusa-head::after {
   content: '';
@@ -282,6 +283,7 @@ body {
   border-bottom-left-radius: 30px 30px;
   border-right: 2px solid #fff;
   position: relative;
+  z-index: 1;
 }
 .komachi-head::after {
   content: '';

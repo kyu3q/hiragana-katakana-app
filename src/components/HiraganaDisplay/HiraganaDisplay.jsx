@@ -6,6 +6,7 @@ import ScoreBoard from '../ScoreBoard';
 import { hiraganaGroups } from '../../data/hiraganaData';
 import { playSound, playCorrectSound, playCheerSound, playStarSound, playWrongSound } from '../../utils/soundPlayer';
 import { triggerConfetti, triggerColorfulConfetti, triggerFireworks } from '../../utils/confettiEffect';
+import WritingGrid from '../WritingGrid/WritingGrid';
 
 const HiraganaDisplay = () => {
   const [selectedChar, setSelectedChar] = useState(null);
@@ -18,6 +19,8 @@ const HiraganaDisplay = () => {
   const [attempts, setAttempts] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false); // 状態遷移中かどうか
+  const [showWritingGrid, setShowWritingGrid] = useState(false);
+  const [selectedCharacter, setSelectedCharacter] = useState(null);
 
   // ゲームモードを切り替える
   const toggleGameMode = () => {
@@ -140,58 +143,22 @@ const HiraganaDisplay = () => {
   };
 
   // 文字がクリックされたときの処理
-  const handleCharacterClick = (character) => {
-    // 状態遷移中なら何もしない
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    
-    // 選択された文字を設定
-    setSelectedChar(character);
-    
+  const handleCharacterClick = (char) => {
     if (gameMode === 'learn') {
-      // 学習モード: アニメーション表示
-      // 音声はAnimationOverlayで再生するので、ここでは再生しない
-      setShowAnimation(true);
-      
-      // スコアを増やす
-      const newScore = score + 1;
-      setScore(newScore);
-      
-      // 5の倍数のスコアでお祝いエフェクト
-      if (newScore % 5 === 0) {
-        // 星獲得時の音声を再生
-        playStarSound();
-        
-        // スコアに応じて異なるエフェクト
-        if (newScore % 15 === 0) {
-          triggerFireworks();
-          playCheerSound();
-        } else if (newScore % 10 === 0) {
-          triggerColorfulConfetti();
-          playCheerSound();
-        } else {
-          triggerConfetti();
-        }
-      } else {
-        // 通常時は正解音を再生
-        playCorrectSound();
-      }
-      
-      setTimeout(() => {
-        setIsTransitioning(false);
-      }, 500);
-    } else {
+      setSelectedCharacter(char);
+      setShowWritingGrid(true);
+    } else if (gameMode === 'quiz') {
       // クイズモード: 選択した文字が正解かどうかを判定
       // デバッグ用のログ
-      console.log('選択した文字:', character.char, typeof character.char);
+      console.log('選択した文字:', char.char, typeof char.char);
       console.log('ターゲット文字:', targetChar.char, typeof targetChar.char);
       
       // 文字コードも表示
-      console.log('選択した文字のコード:', character.char.charCodeAt(0));
+      console.log('選択した文字のコード:', char.char.charCodeAt(0));
       console.log('ターゲット文字のコード:', targetChar.char.charCodeAt(0));
       
       // 単純に文字列を比較
-      const correct = character.char === targetChar.char;
+      const correct = char.char === targetChar.char;
       console.log('正解判定:', correct);
       
       setIsCorrect(correct);
@@ -243,6 +210,11 @@ const HiraganaDisplay = () => {
         }
       }
     }
+  };
+
+  const handleCloseWritingGrid = () => {
+    setShowWritingGrid(false);
+    setSelectedCharacter(null);
   };
 
   // アニメーションを閉じる
@@ -411,6 +383,13 @@ const HiraganaDisplay = () => {
           onClose={closeAnimation}
           isCorrect={isCorrect}
           gameMode={gameMode}
+        />
+      )}
+
+      {showWritingGrid && selectedCharacter && (
+        <WritingGrid
+          character={selectedCharacter}
+          onClose={handleCloseWritingGrid}
         />
       )}
     </div>
